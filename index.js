@@ -1,40 +1,45 @@
 var express = require('express');
 var app = express();
 
-
-
-app.get('/op/:operation/:number1/:number2', function (req, res) {
-  
-  var operation = req.params.operation;
-  var number1 = Number(req.params.number1);
-  var number2 = Number(req.params.number2);
-  var solution;
-  
-  switch(operation){
-    
-    case "add":
-      solution = number1+number2;
-      break;
-    case "sub":
-      solution = number1-number2;
-      break;
-    case "mult":
-      solution = number1*number2;
-      break;
-    case "div":
-      solution = number1/number2;
-      break;
-    default:
-        res.status(400).send("Bad request: Wrong operator selected.");
+var entries = {
+  1: {
+    firstName: "John",
+    lastName: "Smith",
+    emails: [
+      {type: "home", address: "john@smith.com"},
+      {type: "work", address: "jsmith@megacorp.com"}
+    ]
+  },
+  2: {
+    firstName: "Jane",
+    lastName: "Doe",
+    emails: [
+      {type: "home", address: "jane@doe.com"},
+      {type: "work", address: "jdoe@megacorp.com"}
+    ]
+  },
+  3: {
+    firstName: "Bill",
+    lastName: "Scott",
+    emails: [
+      {type: "home", address: "bill@scott.com"},
+      {type: "work", address: "bscott@megacorp.com"}
+    ]
   }
+};
+
+
+
+
+app.get('/entry/:entryId', function (req, res) {
   
-  var calculation = { operator: operation,
-                      firstOperand: number1,
-                      secondOperand: number2,
-                      solution: solution
-  };
+  var entryId = req.params.entryId;
   
-  res.json(calculation);
+  if(entries[entryId]){
+    res.json(entries[entryId]);
+  } else {
+    res.status(400).send('Bad request: Id selected unavailable.')
+  }
 });
 
 
