@@ -25,7 +25,7 @@ app.get('/op/:operation/:number1/:number2', function (req, res) {
       solution = number1/number2;
       break;
     default:
-        res.send("Wrong operator selected.");
+        res.status(400).send("Bad request: Wrong operator selected.");
   }
   
   var calculation = { operator: operation,
