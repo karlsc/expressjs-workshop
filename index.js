@@ -1,11 +1,40 @@
 var express = require('express');
 var app = express();
 
-app.get('/hello/:firstName', function (req, res) {
+
+
+app.get('/op/:operation/:number1/:number2', function (req, res) {
   
-  var firstName = req.params.firstName;
+  var operation = req.params.operation;
+  var number1 = Number(req.params.number1);
+  var number2 = Number(req.params.number2);
+  var solution;
   
-  res.send('<h1>Hello '+firstName+'!</h1>');
+  switch(operation){
+    
+    case "add":
+      solution = number1+number2;
+      break;
+    case "sub":
+      solution = number1-number2;
+      break;
+    case "mult":
+      solution = number1*number2;
+      break;
+    case "div":
+      solution = number1/number2;
+      break;
+    default:
+        res.send("Wrong operator selected.");
+  }
+  
+  var calculation = { operator: operation,
+                      firstOperand: number1,
+                      secondOperand: number2,
+                      solution: solution
+  };
+  
+  res.json(calculation);
 });
 
 
