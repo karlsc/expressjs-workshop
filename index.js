@@ -39,9 +39,9 @@ app.post('/entry', function(req, res){
     
     keysInEntriesLength++;
     
-    entries[keysInEntriesLength] = {firstName: req.body.firstName, lastName: req.body.lastName};
+    entries[keysInEntriesLength] = {id: keysInEntriesLength, firstName: req.body.firstName, lastName: req.body.lastName};
     
-    res.send("ID #"+keysInEntriesLength+" = "+entries[keysInEntriesLength].lastName+", "+entries[keysInEntriesLength].firstName);
+    res.json(entries[keysInEntriesLength]);
     res.end();
 
 }); 
