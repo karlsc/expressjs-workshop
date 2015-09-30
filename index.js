@@ -7,8 +7,7 @@ var entries = {
     firstName: "John",
     lastName: "Smith",
     emails: [
-      {type: "home", address: "john@smith.com"},
-      {type: "work", address: "jsmith@megacorp.com"}
+      {type: "home", address: "john@smith.com"}
     ]
   },
   2: {
@@ -45,10 +44,9 @@ var entries = {
   },
   6: {
     firstName: "Dominic",
-    lastName: "Doe",
+    lastName: "Do",
     emails: [
       {type: "home", address: "dominic@doe.com"},
-      {type: "work", address: "ddoe@megacorp.com"}
     ]
   }
 };
@@ -65,10 +63,24 @@ app.get('/entry/search', function (req, res) {
   
   for(var i = 1 ; i <= keysInEntries.length ; i++){
     
-    if(firstName === entries[i].firstName || lastName === entries[i].lastName || email === entries[i].emails[0].address || email === entries[i].emails[1].address){
+    var doesMatch = false;
+    
+    if(firstName === entries[i].firstName || lastName === entries[i].lastName){
       
-      resultsFound.push(entries[i].lastName+", "+entries[i].firstName+" | Email 1: "+entries[i].emails[0].address+" ("+entries[i].emails[0].type+") | Email 2: "+entries[i].emails[1].address+" ("+entries[i].emails[1].type+")");
-    } 
+      doesMatch = true;
+    }
+      
+    for(var j = 0 ; j < entries[i].emails.length ; j++){
+      
+      if(entries[i].emails[j].address.indexOf(email) !== -1){
+        
+        doesMatch = true;
+      }
+    }
+    
+    if (doesMatch) {
+      resultsFound.push(entries[i]);
+    }
   }
   
   if(!resultsFound){
